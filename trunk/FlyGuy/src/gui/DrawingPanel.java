@@ -1,12 +1,11 @@
 package gui;
-import java.awt.event.*;
 import logic.Camera;
 import javax.swing.JPanel;
 import java.awt.*;
 
 
 /**
- *
+ * Ta klasa, rozszerzająca JPanel, odpowiada za malowanie sceny na ekranie.
  * @author alebar
  */
 public class DrawingPanel extends JPanel {
@@ -27,6 +26,11 @@ public class DrawingPanel extends JPanel {
         this.setBackground(Color.BLACK);
     }
 
+    /**
+     * Przesłonięta metoda paintComponent(g) mojego autorstwa pobiera odpowiednie dane
+     * z programu głównego i maluje je na ekranie w panelu.
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

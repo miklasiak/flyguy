@@ -2,7 +2,8 @@ package gui;
 import logic.Camera;
 import java.awt.event.*;
 /**
- *
+ * Ta klasa odpowiada za GUI programu. Program wywołuje konstruktor tej klasy
+ * by stworzyć okno. Żeby przemalować scenę wystarczy wywołać reload().
  * @author alebar
  */
 public class GUI implements MouseListener, KeyListener {
@@ -17,6 +18,9 @@ public class GUI implements MouseListener, KeyListener {
         frame.setVisible(true);
     }
 
+    /**
+     * Wywołaj tę funkcję, żeby przemalować scenę.
+     */
     public void reload () {
         panel.repaint();
     }
