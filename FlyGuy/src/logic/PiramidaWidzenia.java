@@ -1,5 +1,8 @@
 package logic;
 
+import logic.Point;
+import java.lang.Math;
+
 /**
  * Klasa reprezentuje piramidę widzenia kamery.
  * @author alebar
@@ -27,14 +30,25 @@ public class PiramidaWidzenia {
      * związane z kątem widzenia. Długość prostopadłościanu to BPD-FPD.
      */
     private final double a;
+    /**
+     * Wysokość rzutni w pikselach
+     */
+    private final int RZUTNIA_HEIGHT;
+    /**
+     * Szerokość rzutni w pikselach
+     */
+    private final int RZUTNIA_WIDTH;
 
 
-    public PiramidaWidzenia (double vpd, double fpd, double bpd, double fi) {
+    public PiramidaWidzenia (double vpd, double fpd, double bpd, double fi, int rz_height, int rz_width) {
         VPD = vpd;
         FPD = fpd;
         BPD = bpd;
         FI = fi;
-        a = BPD*java.lang.Math.tan(fi/2);
+        a = BPD*java.lang.Math.abs(java.lang.Math.tan(FI/2));
+        System.out.println(a);
+        RZUTNIA_HEIGHT = rz_height;
+        RZUTNIA_WIDTH = rz_width;
     }
 
     /**
@@ -69,5 +83,20 @@ public class PiramidaWidzenia {
      */
     protected double getVPD () {
         return this.VPD;
+    }
+
+    /**
+     * Zwraca wysokość rzutni w pikselach.
+     * @return wysokość rzutni w pikselach
+     */
+    protected int getRzutniaHeight () {
+        return this.RZUTNIA_HEIGHT;
+    }
+    /**
+     * Zwraca szerokość rzutni w pikselach.
+     * @return szerokość rzutni w pikselach
+     */
+    protected int getRzutniaWidth () {
+        return this.RZUTNIA_WIDTH;
     }
 }
