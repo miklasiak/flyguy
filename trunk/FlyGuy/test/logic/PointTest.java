@@ -5,6 +5,7 @@ package logic;
  * @author alebar
  */
 
+import logic.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.junit.Assert.*;
