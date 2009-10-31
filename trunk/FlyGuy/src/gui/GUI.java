@@ -1,5 +1,5 @@
 package gui;
-import logic.Camera;
+import logic.FlyGuy;
 import java.awt.event.*;
 /**
  * Ta klasa odpowiada za GUI programu. Program wywołuje konstruktor tej klasy
@@ -9,9 +9,9 @@ import java.awt.event.*;
 public class GUI implements MouseListener, KeyListener {
     private DrawingPanel panel;
     private WindowFrame frame;
-    private Camera mainProgram;
+    private FlyGuy mainProgram;
 
-    public GUI (Camera mP) {
+    public GUI (FlyGuy mP) {
         mainProgram = mP;
         panel = new DrawingPanel(mP, this);
         frame = new WindowFrame(panel, this);
@@ -32,12 +32,12 @@ public class GUI implements MouseListener, KeyListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mainProgram.mouseMoveResponse("pressed");
+        System.out.println("mousePressed");
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        mainProgram.mouseMoveResponse("released");
+        System.out.println("mouseReleased");
     }
 
     @Override
@@ -51,15 +51,15 @@ public class GUI implements MouseListener, KeyListener {
     }
 
     public void keyTyped(KeyEvent e) {
-        System.out.println("GUI: typed");
+        //System.out.println("GUI: typed");
     }
 
     public void keyPressed(KeyEvent e) {
-        System.out.println("GUI: pressed");
+        System.out.println("GUI: pressed "+KeyEvent.getKeyText(e.getKeyCode()));
     }
 
     public void keyReleased(KeyEvent e) {
-        System.out.println("GUI: released");
+        System.out.println("GUI: released "+KeyEvent.getKeyText(e.getKeyCode()));
     }
 
 }

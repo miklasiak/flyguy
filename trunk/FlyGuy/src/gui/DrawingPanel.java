@@ -1,5 +1,5 @@
 package gui;
-import logic.Camera;
+import logic.FlyGuy;
 import javax.swing.JPanel;
 import java.awt.*;
 
@@ -9,12 +9,11 @@ import java.awt.*;
  * @author alebar
  */
 public class DrawingPanel extends JPanel {
-    private final int PANEL_WIDTH = 640;
-    private final int PANEL_HEIGHT = 480;
-    private Camera mainProgram;
-    private Integer[] p = new Integer[4];
+    private final int PANEL_WIDTH = 500;
+    private final int PANEL_HEIGHT = 500;
+    private FlyGuy mainProgram;
 
-    public DrawingPanel (Camera mP, GUI mouseList) {
+    public DrawingPanel (FlyGuy mP, GUI mouseList) {
         this.addMouseListener(mouseList);
         mainProgram = mP;
         
@@ -34,9 +33,8 @@ public class DrawingPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        p = mainProgram.getPunkty();
         g.setColor(Color.WHITE);
-        g.drawLine(p[0], p[1], p[2], p[3]);
+        g.drawRect(20, 30, 130, 300);
     }
 
 }
