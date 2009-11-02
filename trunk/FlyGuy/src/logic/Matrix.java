@@ -28,14 +28,8 @@ public class Matrix {
      */
     public Matrix (char c) {
         m = new Double[4][4];
-        if (c=='I') {
-            for (int w=0; w<4; w++) {
-                for (int k=0; k<4; k++) {
-                    if (w==k) m[w][k] = 1.0;
-                    else m[w][k] = 0.0;
-                }
-            }
-        }
+        if (c=='I')
+            makeMeI();
     }
 
     /**
@@ -66,10 +60,8 @@ public class Matrix {
      * ta z parametru, po prawej macierz mnożona. Czyli: p*m=m'
      * @param p
      */
-    protected void multiple (Matrix p) throws Exception {
+    protected void multiple (Matrix p) {
         // m musi byc po prawej stronie mnozenia, czyli y*m=x
-        if (this.m == null)
-            throw new Exception("macierz nie została zainicjowana");
         // x to bedzie macierz wynikowa
         Double[][] x = new Double[4][4];
         Double[][] y = p.getTab();
@@ -91,6 +83,15 @@ public class Matrix {
                 System.out.print(m[w][k]+" ");
             }
             System.out.print(" |\n");
+        }
+    }
+
+    protected void makeMeI () {
+        for (int w=0; w<4; w++) {
+            for (int k=0; k<4; k++) {
+                if (w==k) m[w][k] = 1.0;
+                else m[w][k] = 0.0;
+            }
         }
     }
 }

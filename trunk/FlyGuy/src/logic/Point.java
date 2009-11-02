@@ -46,16 +46,13 @@ public class Point {
                 tmp[w] += mat[w][k]*v[k];
             }
         }
-
+        v = tmp.clone();
     }
 
     /**
      * Ta metoda normalizuje punkt o współrzędnych jednorodnych.
      */
-    protected void normalize () throws Exception {
-        if (v == null)
-            throw new Exception ("punkt nie zainicjowany");
-        
+    protected void normalize () {
         v[0] = v[0]*(1/v[3]);
         v[1] = v[1]*(1/v[3]);
         v[2] = v[2]*(1/v[3]);

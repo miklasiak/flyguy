@@ -22,7 +22,7 @@ public class ObjectLoaderTest {
     public void szescianTest () {
         ArrayList<Triangle3D> t = ObjectLoader.getTriangleList("szescian.txt");
         Triangle3D testTrojkat;
-        assertEquals (2,t.size(),eps);
+        assertEquals (12,t.size(),eps);
         for (int i=0; i<t.size(); i++) {
             testTrojkat = t.get(i);
             /*

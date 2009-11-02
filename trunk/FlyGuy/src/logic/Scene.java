@@ -19,10 +19,16 @@ public class Scene {
      * @param p Obiekt klasy PiramidaWidzenia
      */
     public Scene (ArrayList<Triangle3D> tList, PiramidaWidzenia p) {
-        trojkaty = tList;
+        listCopy(tList);
         pw = p;
         xd = pw.getRzutniaWidth() / 2;
         zd = pw.getRzutniaHeight() / 2;
+    }
+
+    private void listCopy (ArrayList<Triangle3D> list) {
+        for (Triangle3D t : list) {
+            trojkaty.add(Triangle3D.copy(t));
+        }
     }
 
     /**
@@ -35,11 +41,7 @@ public class Scene {
             for (int p=0; p<3; p++) {
                 tmp = t.getPoint(p);
                 tmp.multiply(M);
-                try {
-                    tmp.normalize();
-                } catch (Exception ex) {
-                    System.exit(0);
-                }
+                tmp.normalize();
             }
         }
     }
@@ -71,7 +73,7 @@ public class Scene {
                 punkty.clear();
                 for (i=0; i<3; i++) {
                     Point p3d = t3d.getPoint(i);
-                    double k = pw.getVPD() / p3d.getY();
+                    double k = pw.getVPD() / (p3d.getY()-pw.getY());
                     int x = (int) (k*p3d.getX()+xd);
                     int z = (int) (zd - k*p3d.getZ());
                     punkty.add(new Point2D(x,z));
@@ -83,5 +85,13 @@ public class Scene {
         }
 
         return obraz;
+    }
+
+    protected void sunKamere(double s) {
+        pw.setY(s);
+    }
+
+    protected ArrayList<Triangle3D> getTrojkaty () {
+        return (ArrayList<Triangle3D>) trojkaty.clone();
     }
 }

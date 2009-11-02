@@ -22,10 +22,12 @@ public class ObjectLoader {
      * @return Lista wczytanych trójkątów
      */
     public static ArrayList<Triangle3D> getTriangleList(String filename) {
+        BufferedReader br;
+        DataInputStream in;
         try {
             FileInputStream fstream = new FileInputStream(filename);
-            DataInputStream in = new DataInputStream(fstream);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            in = new DataInputStream(fstream);
+            br = new BufferedReader(new InputStreamReader(in));
             String strLine;
             String[] strTab;
             Point p1, p2, p3;
@@ -33,10 +35,9 @@ public class ObjectLoader {
             ArrayList<Triangle3D> trojkaty = new ArrayList<Triangle3D>();
 
             while ((strLine = br.readLine()) != null) {
-                if (strLine.length() == 0)
-                    continue;
-                if (strLine.charAt(0)=='/')
-                    continue;
+                if (strLine.length() == 0) continue;
+                if (strLine.charAt(0)=='/') continue;
+                if (strLine.charAt(0)=='*') continue;
                     
                 strTab = strLine.split(";");
                 for (int i=0; i<9; i++) {
@@ -54,5 +55,6 @@ public class ObjectLoader {
             Logger.getLogger(ObjectLoader.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+
     }
 }
