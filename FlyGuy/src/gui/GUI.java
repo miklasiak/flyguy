@@ -55,11 +55,23 @@ public class GUI implements MouseListener, KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        System.out.println("GUI: pressed "+KeyEvent.getKeyText(e.getKeyCode()));
+        if (e.getKeyChar() == 'w')
+            mainProgram.moveForward();
+        if (e.getKeyChar() == 's')
+            mainProgram.moveBackward();
+        if (e.getKeyChar() == 'a')
+            mainProgram.moveLeft();
+        if (e.getKeyChar() == 'd')
+            mainProgram.moveRight();
+        if (e.getKeyCode()==KeyEvent.VK_UP)
+            mainProgram.moveUp();
+        if (e.getKeyCode()==KeyEvent.VK_DOWN)
+            mainProgram.moveDown();
+        //System.out.println("GUI: pressed "+KeyEvent.getKeyText(e.getKeyCode()));
     }
 
     public void keyReleased(KeyEvent e) {
-        System.out.println("GUI: released "+KeyEvent.getKeyText(e.getKeyCode()));
+        //System.out.println("GUI: released "+KeyEvent.getKeyText(e.getKeyCode()));
     }
 
 }

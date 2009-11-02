@@ -1,7 +1,6 @@
 package gui;
 import logic.FlyGuy;
 import logic.Triangle2D;
-import logic.Point2D;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -28,7 +27,7 @@ public class DrawingPanel extends JPanel {
      * @param mouseList to obiekt który będzie reagował na zachowania myszy.
      */
     public DrawingPanel (FlyGuy mP, GUI mouseList) {
-        this.addMouseListener(mouseList);
+        //this.addMouseListener(mouseList);
         mainProgram = mP;
         
         Dimension d = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);

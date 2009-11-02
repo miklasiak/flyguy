@@ -30,4 +30,15 @@ public class Triangle3D {
     public Point getPoint (int i){
         return points.get(i);
     }
+
+    public static Triangle3D copy (Triangle3D t) {
+        Point [] p = new Point[3];
+        for (int i=0; i<3; i++) {
+            p[i] = new Point(
+                    t.getPoint(i).getX(),
+                    t.getPoint(i).getY(),
+                    t.getPoint(i).getZ());
+        }
+        return new Triangle3D(p[0], p[1], p[2]);
+    }
 }
