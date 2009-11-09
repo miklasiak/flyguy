@@ -14,14 +14,18 @@ public class FlyGuy {
     private ArrayList<Line2D> zrzutowane;
     private Scene scena;
     private boolean changed = true;
-    private double tStep = 1.0;                 // krok przesuniecia w translacji
+    private double tStep = 10.0;                 // krok przesuniecia w translacji
     private double dStep = 1.0;                 // krok przesuniecia ogniskowej
-    private double rStep = 1.0;                 // krok przesuniecia ogniskowej
+    private double rStep = 0.01;                // jednostka obrotu
     private Double[] v;                         // wektor translacji
     private Matrix T = new Matrix('I');         // macierz translacji
     private Matrix R = new Matrix('I');         // zbiorowa macierz obrotu
     private Matrix rXdown = new Matrix('I');    // macierz obrotu wokol OX w dol
     private Matrix rXup = new Matrix('I');      // macierz obrotu wokol OX w gore
+    private Matrix rYright = new Matrix('I');   // macierz obrotu wokol OY w prawo
+    private Matrix rYleft = new Matrix('I');    // macierz obrotu wokol OY w lewo
+    private Matrix rZright = new Matrix('I');   // macierz obrotu wokol OZ w prawo
+    private Matrix rZleft = new Matrix('I');    // macierz obrotu wokol OZ w lewo
 
     public FlyGuy (Scene s) {
         v = new Double[3];
@@ -29,8 +33,12 @@ public class FlyGuy {
             v[i]=0.0;
         scena = s;
         
-        rXdown = this.makeRotationXMatrix(rStep);
-        rXup = this.makeRotationXMatrix(-rStep);
+        rXdown  = this.makeRotationXMatrix(rStep);
+        rXup    = this.makeRotationXMatrix(-rStep);
+        rYright = this.makeRotationYMatrix(-rStep);
+        rYleft  = this.makeRotationYMatrix(rStep);
+        rZright = this.makeRotationZMatrix(rStep);
+        rZleft  = this.makeRotationZMatrix(-rStep);
 
         zrzutowane = scena.rzutuj();
         gui = new GUI(this);
@@ -93,15 +101,40 @@ public class FlyGuy {
         changed = true;
     }
 
+    public void rotateYRight() {
+        R.multiple(rYright);
+        changed = true;
+    }
+
+    public void rotateYLeft() {
+        R.multiple(rYleft);
+        changed = true;
+    }
+
+    public void rotateZRight() {
+        R.multiple(rZright);
+        changed = true;
+    }
+
+    public void rotateZLeft() {
+        R.multiple(rZleft);
+        changed = true;
+    }
+    
     public Matrix makeRotationXMatrix (double fi) {
         Matrix m = new Matrix('I');
-        double cos, sin;
+        double cos, sin, c;
+        c = scena.getCameraY();
         cos = java.lang.Math.cos(fi);
         sin = java.lang.Math.sin(fi);
         m.setVal(1, 1, cos);
         m.setVal(2, 2, cos);
         m.setVal(2, 1, sin);
         m.setVal(1, 2, -sin);
+        // te wartości poniżej powodują obrót nie wokół osi OX świata
+        // ale wokół osi OX kamery :)
+        m.setVal(1, 3, c * (cos-1));
+        m.setVal(2, 3, sin*c);
         return m;
     }
 
@@ -119,13 +152,18 @@ public class FlyGuy {
 
     private Matrix makeRotationZMatrix (double fi) {
         Matrix m = new Matrix('I');
-        double cos, sin;
+        double cos, sin, c;
+        c = scena.getCameraY();
         cos = java.lang.Math.cos(fi);
         sin = java.lang.Math.sin(fi);
         m.setVal(0, 0, cos);
         m.setVal(1, 1, cos);
         m.setVal(1, 0, sin);
         m.setVal(0, 1, -sin);
+        // te wartości poniżej powodują obrót nie wokół osi OZ świata
+        // ale wokół osi OZ kamery :)
+        m.setVal(0, 3, (-1)*sin*c);
+        m.setVal(1, 3, (cos-1)*c);
         return m;
     }
 
