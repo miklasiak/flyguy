@@ -1,10 +1,11 @@
 package gui;
 import logic.FlyGuy;
-import logic.Triangle2D;
+import logic.Line2D;
 
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
+import logic.Point2D;
 
 
 /**
@@ -15,9 +16,8 @@ public class DrawingPanel extends JPanel {
     private final int PANEL_WIDTH = 500;
     private final int PANEL_HEIGHT = 500;
     private FlyGuy mainProgram;
-    ArrayList<Triangle2D> trojkaty;
-    int[] x = new int[3];
-    int[] y = new int[3];
+    ArrayList<Line2D> linie;
+    Point2D p1, p2;
 
     /**
      * Konstruktor tworzy obiekt klasy DrawingPanel. Ustawia odpowiedni rozmiar, kolor tła
@@ -48,14 +48,15 @@ public class DrawingPanel extends JPanel {
         super.paintComponent(g);
         g.setColor(Color.WHITE);
 
-        trojkaty = mainProgram.getZrzutowane();
-
-        for (Triangle2D t : trojkaty) {
-            for (int i=0; i<3; i++) {
-                x[i] = t.getPoint2D(i).getX();
-                y[i] = t.getPoint2D(i).getY();
-            }
-            g.drawPolygon(x, y, 3);
+        linie = mainProgram.getZrzutowane();
+        for (Line2D l : linie) {
+            p1 = l.getPoint2D(0);
+            p2 = l.getPoint2D(1);
+            
+            g.drawLine(
+                    p1.getX(), p1.getY(),
+                    p2.getX(), p2.getY()
+                    );
         }       
     }
 

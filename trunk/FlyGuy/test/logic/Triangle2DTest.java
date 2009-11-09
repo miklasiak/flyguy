@@ -24,7 +24,7 @@ public class Triangle2DTest {
         list.add(new Point2D(10,20));
         list.add(new Point2D(20,40));
         list.add(new Point2D(30,60));
-        Triangle2D tr = new Triangle2D(list);
+        Line2D tr = new Line2D(list);
         assertEquals (10,tr.getPoint2D(0).getX(),eps);
         assertEquals (20,tr.getPoint2D(0).getY(),eps);
         assertEquals (20,tr.getPoint2D(1).getX(),eps);

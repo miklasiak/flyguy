@@ -28,10 +28,19 @@ public class MatrixTest {
         Matrix m = new Matrix (tab);
     }
 
+    @Test
+    public void setValTest () {
+        Matrix m = new Matrix ('I');
+        double d = 10;
+        double x = -10;
+        m.setVal(2, 2, -d);
+        m.setVal(1, 1, d);
+        //m.show();
+    }
 
 
     public static void main (String[] args) {
-        JUnitCore.main("logic.PointTest");
+        JUnitCore.main("logic.MatrixTest");
     }
 
 }
