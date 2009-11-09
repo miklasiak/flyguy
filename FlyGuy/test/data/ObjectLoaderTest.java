@@ -1,7 +1,7 @@
 package data;
 
 import java.util.ArrayList;
-import logic.Triangle3D;
+import logic.Line3D;
 
 import org.junit.*;
 import org.junit.runner.*;
@@ -20,8 +20,8 @@ public class ObjectLoaderTest {
     }
     @Test
     public void szescianTest () {
-        ArrayList<Triangle3D> t = ObjectLoader.getTriangleList("szescian.txt");
-        Triangle3D testTrojkat;
+        ArrayList<Line3D> t = ObjectLoader.getTriangleList("szescian.txt");
+        Line3D testTrojkat;
         assertEquals (12,t.size(),eps);
         for (int i=0; i<t.size(); i++) {
             testTrojkat = t.get(i);

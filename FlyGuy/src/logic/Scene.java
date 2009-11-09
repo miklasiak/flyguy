@@ -8,27 +8,30 @@ import java.util.ArrayList;
  * @author alebar
  */
 public class Scene {
-    private ArrayList<Triangle3D> trojkaty = new ArrayList<Triangle3D>();
-    private PiramidaWidzenia pw;
-    private int xd;
-    private int zd;
+    private ArrayList<Line3D> linie = new ArrayList<Line3D>();
+    private Camera cam;
+    private int xd, zd;
 
     /**
      * Konstruuje scenę z podanych powierzchni i zdefiniowanej piramidy widzenia.
      * @param tList lista trójkątów typu Triangle3D, budujących obiekty w scenie
      * @param p Obiekt klasy PiramidaWidzenia
      */
-    public Scene (ArrayList<Triangle3D> tList, PiramidaWidzenia p) {
-        listCopy(tList);
-        pw = p;
-        xd = pw.getRzutniaWidth() / 2;
-        zd = pw.getRzutniaHeight() / 2;
+    public Scene (ArrayList<Line3D> tList, Camera p) {
+        listCopy(tList); // tList wkleja na listę "linie"
+        cam = p;
+        xd = cam.getRzutniaWidth() / 2;
+        zd = cam.getRzutniaHeight() / 2;
     }
 
-    private void listCopy (ArrayList<Triangle3D> list) {
-        for (Triangle3D t : list) {
-            trojkaty.add(Triangle3D.copy(t));
+    private void listCopy (ArrayList<Line3D> list) {
+        for (Line3D l : list) {
+            linie.add(Line3D.copy(l));
         }
+    }
+
+    protected void zmienOgniskowa (double delta) {
+        cam.setVPD(cam.getVPD()+delta);
     }
 
     /**
@@ -37,9 +40,9 @@ public class Scene {
      */
     protected void multiplyPoints(Matrix M) {
         Point tmp;
-        for (Triangle3D t : trojkaty) {
-            for (int p=0; p<3; p++) {
-                tmp = t.getPoint(p);
+        for (Line3D l : linie) {
+            for (int p=0; p<2; p++) {
+                tmp = l.getPoint(p);
                 tmp.multiply(M);
                 tmp.normalize();
             }
@@ -47,51 +50,79 @@ public class Scene {
     }
 
     /**
-     * Metoda rzutuje trójwymiarowe płaszczyzny na rzutnię. Rzutuje tylko te
-     * trójkąty, które (przynajmniej jednym punktem) znajdują się w piramidzie widzenia.
-     * W wyniku zwraca listę trójkątów dwuwymiarowych, o współrzędnych przeliczonych na 
+     * Metoda rzutuje trójwymiarowe linie na rzutnię. Rzutuje tylko te
+     * linie proste, które (przynajmniej jednym punktem) znajdują się w piramidzie widzenia.
+     * W wyniku zwraca listę linii prostych dwuwymiarowych, o współrzędnych przeliczonych na
      * współrzędne rzutni (ekranu).
-     * @return lista trójkątów widocznych na rzutni
+     * @return lista linii widocznych na rzutni
      */
-    protected ArrayList<Triangle2D> rzutuj () {
-        ArrayList<Triangle2D> obraz = new ArrayList<Triangle2D>();
+    protected ArrayList<Line2D> rzutuj () {
+        ArrayList<Line2D> obraz = new ArrayList<Line2D>();
         ArrayList<Point2D> punkty = new ArrayList<Point2D>();
 
-        boolean isInside;
+        boolean rzutujTo;
         int i;
 
-        for (Triangle3D t3d : trojkaty) {
-            isInside = false;
-            // sprawdz czy trojkat jest w piramidzie widzenia
-            for (i=0; i<3; i++) {
-                // jesli choc 1 punkt jest wewnatrz piramidy, nie sprawdzaj dalej
-                if(isInside = pw.isInside(t3d.getPoint(i)))
-                    break;
+        for (Line3D line3d : linie) {
+            Point p1, p2;
+            Line2D line2d;
+
+            p1 = line3d.getPoint(0);
+            p2 = line3d.getPoint(1);
+
+            if (cam.isVisible(p1)&&cam.isVisible(p2)) {
+                line2d = rzutujNormalnie(p1,p2);
+                obraz.add(line2d);
             }
-            if (isInside) {
-                // stworz trojkat2d z odpowiednimi wspolrzednymi i wrzuc na liste
-                punkty.clear();
-                for (i=0; i<3; i++) {
-                    Point p3d = t3d.getPoint(i);
-                    double k = pw.getVPD() / (p3d.getY()-pw.getY());
-                    int x = (int) (k*p3d.getX()+xd);
-                    int z = (int) (zd - k*p3d.getZ());
-                    punkty.add(new Point2D(x,z));
-                }
-                obraz.add(new Triangle2D(punkty));
+            else if (cam.isVisible(p1)&&(!cam.isVisible(p2))) {
+                line2d = rzutujZCieciem (p1, p2);
+                obraz.add(line2d);
             }
-            else
-                continue;
+            else if ((!cam.isVisible(p1))&&cam.isVisible(p2)) {
+                line2d = rzutujZCieciem (p2, p1); //najpierw widoczny, potem niewidoczny
+                obraz.add(line2d);
+            }
         }
 
         return obraz;
     }
 
-    protected void sunKamere(double s) {
-        pw.setY(s);
+    protected ArrayList<Line3D> getLines () {
+        return (ArrayList<Line3D>) linie.clone();
     }
 
-    protected ArrayList<Triangle3D> getTrojkaty () {
-        return (ArrayList<Triangle3D>) trojkaty.clone();
+    private Line2D rzutujNormalnie(Point p1, Point p2) {
+        return new Line2D(rzucPunkt(p1), rzucPunkt(p2));
     }
+
+    // TODO: przetestuj
+    private Line2D rzutujZCieciem(Point a, Point b) {
+        // p1 jest widoczny, p2 nie widac
+        Point2D nowy1, nowy2;
+        if (a.getY() == (cam.getY()+cam.getVPD())) {
+            nowy1 = new Point2D(
+                    (int)(a.getX() + xd),
+                    (int)(zd - a.getZ())
+                    );
+            nowy2 = new Point2D(nowy1.getX(), nowy1.getY());
+            return new Line2D (nowy1, nowy2);
+        }
+        else {
+            double Y = a.getY() - b.getY();
+            double y = a.getY() - ( cam.getY() + cam.getVPD() );
+            double x, z, k;
+            k = y/Y;
+            x = a.getX() + ( (b.getX() - a.getX() ) * k );
+            z = a.getZ() + ( (b.getZ() - a.getZ() ) * k );
+            return new Line2D ( rzucPunkt(a), new Point2D((int)(xd+x), (int)(zd-z)));
+        }
+    }
+
+    private Point2D rzucPunkt (Point p) {
+        double k = cam.getVPD() / (p.getY()-cam.getY());
+        int x = (int) (k*p.getX()+xd);
+        int z = (int) (zd - k*p.getZ());
+        return new Point2D (x,z);
+    }
+
 }

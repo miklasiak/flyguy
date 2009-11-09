@@ -3,30 +3,28 @@ package logic;
 import java.util.*;
 
 /**
- * Klasa reprezentuje trójkąt w przestrzeni 2 wymiarowej,
- * zawierając 3 punkty 2D.
+ * Klasa reprezentuje linię prostą w przestrzeni 2 wymiarowej,
+ * zawierając 2 punkty 2D.
  * @author alebar
  */
-public class Triangle2D {
+public class Line2D {
     private ArrayList<Point2D> points = new ArrayList<Point2D>() {};
 
     /**
-     * Konstruuje trójkąt z podanych punktów.
+     * Konstruuje linię z podanych punktów.
      * @param p1 punkt typu Point2D
      * @param p2 punkt typu Point2D
-     * @param p3 punkt typu Point2D
      */
-    public Triangle2D (Point2D p1, Point2D p2, Point2D p3) {
+    public Line2D (Point2D p1, Point2D p2) {
         points.add(p1);
         points.add(p2);
-        points.add(p3);
     }
 
     /**
-     * Konstruuje trójkąt z podanej tablicy punktów
+     * Konstruuje linię z podanej tablicy punktów
      * @param punkty jest to ArrayList<Triangle2D>
      */
-    public Triangle2D (ArrayList<Point2D> punkty) {
+    public Line2D (ArrayList<Point2D> punkty) {
         this.points = (ArrayList<Point2D>) punkty.clone();
     }
 

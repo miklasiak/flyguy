@@ -13,17 +13,14 @@ import org.junit.runner.*;
 public class SceneTest {
     private double eps;
     private Scene scena;
-    private PiramidaWidzenia pw;
-    private ArrayList<Triangle3D> tBefore;
-    private ArrayList<Triangle3D> tAfter;
+    private Camera pw;
+    private ArrayList<Line3D> tBefore;
+    private ArrayList<Line3D> tAfter;
     private int tSize;
 
     public SceneTest () {
-        pw = new PiramidaWidzenia(
+        pw = new Camera(
                 10.0,   // VPD
-                -10.0,  // FPD
-                50.0,   // BPD
-                90.0,   // FI
                 100,    // RZ_HEIGHT
                 100,    // RZ_WIDTH
                 -40.0); // Camera Y
@@ -39,19 +36,19 @@ public class SceneTest {
 
     @Test
     public void getTrojkatySizeTest () {
-        tAfter = scena.getTrojkaty();
+        tAfter = scena.getLines();
         assertEquals (tSize,tAfter.size());
     }
 
     @Test
     public void getTrojkatyTest () {
-        Triangle3D tB, tA;
+        Line3D tB, tA;
         Point pB, pA;
-        tAfter = scena.getTrojkaty();
+        tAfter = scena.getLines();
         for (int i=0; i<tSize; i++) {
             tB = tBefore.get(i);
             tA = tAfter.get(i);
-            for (int j=0; j<3; j++) {
+            for (int j=0; j<2; j++) {
                 pB = tB.getPoint(j);
                 pA = tA.getPoint(j);
                 assertEquals (pB.getX(),pA.getX(), eps);
@@ -64,7 +61,7 @@ public class SceneTest {
     
     @Test
     public void multiplyTest () {
-        Triangle3D tB, tA;
+        Line3D tB, tA;
         Point pB, pA;
 
         Matrix m = new Matrix('I');
@@ -73,12 +70,12 @@ public class SceneTest {
         m.setVal(2, 3, 3.0); // z+3
 
         scena.multiplyPoints(m);
-        tAfter = scena.getTrojkaty();
+        tAfter = scena.getLines();
 
         for (int i=0; i<tSize; i++) {
             tB = tBefore.get(i);
             tA = tAfter.get(i);
-            for (int j=0; j<3; j++) {
+            for (int j=0; j<2; j++) {
                 pB = tB.getPoint(j);
                 pA = tA.getPoint(j);
                 assertEquals (pB.getX()+1,pA.getX(), eps);

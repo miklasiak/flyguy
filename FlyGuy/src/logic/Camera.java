@@ -5,29 +5,11 @@ package logic;
  * i skierowana jest na środek układu współrzędnych.
  * @author alebar
  */
-public class PiramidaWidzenia {
+public class Camera {
     /**
      * VPD (View Plane Distance) czyli odległość rzutni od środka rzutowania
      */
     private double VPD;
-    /**
-     * FPD (Front Plane Distance) - współrzędna Y przedniej płaszczyzny przycinającej
-     */
-    private final double FPD;
-    /**
-     * BPD (Back Plane Distance) - współrzędna Y tylniej płaszczyzny przycinającej
-     */
-    private final double BPD;
-    /**
-     * Kąt widzenia kamery.
-     */
-    private final double FI;
-    /**
-     * Połowa szerokości prostopadłościanu tnącego. Rzutowane będą tylko te punkty, które
-     * znajdują się w prostopadłościanie. Jego szerokość i wysokość są takie same -
-     * związane z kątem widzenia. Długość prostopadłościanu to BPD-FPD.
-     */
-    private final double a;
     /**
      * Wysokość rzutni w pikselach
      */
@@ -42,33 +24,22 @@ public class PiramidaWidzenia {
     private double yc;
 
 
-    public PiramidaWidzenia (double vpd, double fpd, double bpd, double fi, int rz_height, int rz_width, double y) {
+    public Camera (double vpd, int rz_height, int rz_width, double y) {
         VPD = vpd;
-        FPD = fpd;
-        BPD = bpd;
-        FI = fi;
         yc = y;
-        a = BPD*java.lang.Math.abs(java.lang.Math.tan(FI/2));
         RZUTNIA_HEIGHT = rz_height;
         RZUTNIA_WIDTH = rz_width;
     }
 
     /**
      * Funkcja sprawdza, czy przekazany jej punkt p
-     * znajduje się wewnątrz prostopadłościanu tnącego.
-     * Zwraca true jeśli tak a jeśli nie to false.
+     * znajduje się przed rzutnią.
      * @param p Punkt do sprawdzenia
-     * @return
+     * @return true jeśli p jest przed rzutnią, false jeśli nie
      */
-    protected boolean isInside(Point p) {
-        boolean ans = true;
-        if (p.getX()>a || p.getX()<a*(-1))
-            ans = false;
-        if (p.getY()>BPD || p.getY()<FPD || p.getY()<=(VPD+yc))
-            ans = false;
-        if (p.getZ()>a || p.getZ()<a*(-1))
-            ans = false;
-        return ans;
+    protected boolean isVisible(Point p) {
+        if (p.getY() >= yc+VPD) return true;
+        else return false;
     }
 
     /**
@@ -76,7 +47,8 @@ public class PiramidaWidzenia {
      * @param d - Nowa odległość rzutni.
      */
     protected void setVPD (double d) {
-        this.VPD = d;
+        if (d>0)
+            this.VPD = d;
     }
 
     /**

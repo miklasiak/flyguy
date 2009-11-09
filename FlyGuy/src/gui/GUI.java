@@ -50,9 +50,7 @@ public class GUI implements MouseListener, KeyListener {
         System.out.println("exited");
     }
 
-    public void keyTyped(KeyEvent e) {
-        //System.out.println("GUI: typed");
-    }
+    public void keyTyped(KeyEvent e) { }
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyChar() == 'w')
@@ -63,15 +61,20 @@ public class GUI implements MouseListener, KeyListener {
             mainProgram.moveLeft();
         if (e.getKeyChar() == 'd')
             mainProgram.moveRight();
-        if (e.getKeyCode()==KeyEvent.VK_UP)
+        if (e.getKeyCode() == 'R' || e.getKeyCode() == 'r')
             mainProgram.moveUp();
-        if (e.getKeyCode()==KeyEvent.VK_DOWN)
+        if (e.getKeyCode() == 'F' || e.getKeyCode() == 'f')
             mainProgram.moveDown();
-        //System.out.println("GUI: pressed "+KeyEvent.getKeyText(e.getKeyCode()));
+        if (e.getKeyCode()==KeyEvent.VK_UP)
+            mainProgram.rotateXUp();
+        if (e.getKeyCode()==KeyEvent.VK_DOWN)
+            mainProgram.rotateXDown();
+        if (e.getKeyChar() == '[')
+            mainProgram.zoomIn();
+        if (e.getKeyChar() == ']')
+            mainProgram.zoomOut();
     }
 
-    public void keyReleased(KeyEvent e) {
-        //System.out.println("GUI: released "+KeyEvent.getKeyText(e.getKeyCode()));
-    }
+    public void keyReleased(KeyEvent e) { }
 
 }
