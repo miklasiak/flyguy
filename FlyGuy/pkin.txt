@@ -1,0 +1,5 @@
+/*
+* Plik zawiera opis palacu kultury i kilku
+* budynkow wokol niego
+* tzn bedzie zawieral :P
+*/

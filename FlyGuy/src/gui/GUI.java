@@ -53,25 +53,38 @@ public class GUI implements MouseListener, KeyListener {
     public void keyTyped(KeyEvent e) { }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == 'w')
+        // movement
+        if (e.getKeyChar() == 'w' || e.getKeyChar() == 'W')
             mainProgram.moveForward();
-        if (e.getKeyChar() == 's')
+        if (e.getKeyChar() == 's' || e.getKeyChar() == 'S')
             mainProgram.moveBackward();
-        if (e.getKeyChar() == 'a')
+        if (e.getKeyChar() == 'a' || e.getKeyChar() == 'A')
             mainProgram.moveLeft();
-        if (e.getKeyChar() == 'd')
+        if (e.getKeyChar() == 'd' || e.getKeyChar() == 'D')
             mainProgram.moveRight();
         if (e.getKeyCode() == 'R' || e.getKeyCode() == 'r')
             mainProgram.moveUp();
         if (e.getKeyCode() == 'F' || e.getKeyCode() == 'f')
             mainProgram.moveDown();
+
+        // rotation
         if (e.getKeyCode()==KeyEvent.VK_UP)
             mainProgram.rotateXUp();
         if (e.getKeyCode()==KeyEvent.VK_DOWN)
             mainProgram.rotateXDown();
-        if (e.getKeyChar() == '[')
-            mainProgram.zoomIn();
+        if (e.getKeyCode()==KeyEvent.VK_RIGHT)
+            mainProgram.rotateZRight();
+        if (e.getKeyCode()==KeyEvent.VK_LEFT)
+            mainProgram.rotateZLeft();
+        if (e.getKeyCode() == 'Q' || e.getKeyCode() == 'q')
+            mainProgram.rotateYLeft();
+        if (e.getKeyCode() == 'E' || e.getKeyCode() == 'e')
+            mainProgram.rotateYRight();
+
+        // zoom
         if (e.getKeyChar() == ']')
+            mainProgram.zoomIn();
+        if (e.getKeyChar() == '[')
             mainProgram.zoomOut();
     }
 

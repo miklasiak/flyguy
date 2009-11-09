@@ -30,6 +30,10 @@ public class Scene {
         }
     }
 
+    /**
+     * Pozwala na zmianę długości ogniskowej.
+     * @param delta odległość o jaką ogniskowa ma być zwiększona.
+     */
     protected void zmienOgniskowa (double delta) {
         cam.setVPD(cam.getVPD()+delta);
     }
@@ -59,9 +63,6 @@ public class Scene {
     protected ArrayList<Line2D> rzutuj () {
         ArrayList<Line2D> obraz = new ArrayList<Line2D>();
         ArrayList<Point2D> punkty = new ArrayList<Point2D>();
-
-        boolean rzutujTo;
-        int i;
 
         for (Line3D line3d : linie) {
             Point p1, p2;
@@ -95,7 +96,6 @@ public class Scene {
         return new Line2D(rzucPunkt(p1), rzucPunkt(p2));
     }
 
-    // TODO: przetestuj
     private Line2D rzutujZCieciem(Point a, Point b) {
         // p1 jest widoczny, p2 nie widac
         Point2D nowy1, nowy2;
@@ -123,6 +123,10 @@ public class Scene {
         int x = (int) (k*p.getX()+xd);
         int z = (int) (zd - k*p.getZ());
         return new Point2D (x,z);
+    }
+
+    protected double getCameraY () {
+        return this.cam.getY();
     }
 
 }
