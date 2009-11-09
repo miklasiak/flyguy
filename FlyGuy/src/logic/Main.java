@@ -18,7 +18,7 @@ public class Main {
                 300.0,   // VPD
                 500,    // RZ_HEIGHT
                 500,    // RZ_WIDTH
-                -3000.0); // Camera Y
+                0.0); // Camera Y
 
         scena0 = new Scene(ObjectLoader.getTriangleList("testy.txt"), pw);
         //scena1 = new Scene(ObjectLoader.getTriangleList("szescian.txt"), pw);
