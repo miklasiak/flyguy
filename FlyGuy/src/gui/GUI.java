@@ -6,7 +6,7 @@ import java.awt.event.*;
  * by stworzyć okno. Żeby przemalować scenę wystarczy wywołać reload().
  * @author alebar
  */
-public class GUI implements MouseListener, KeyListener {
+public class GUI implements KeyListener {
     private DrawingPanel panel;
     private WindowFrame frame;
     private FlyGuy mainProgram;
@@ -24,32 +24,7 @@ public class GUI implements MouseListener, KeyListener {
     public void reload () {
         panel.repaint();
     }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("Clicked");
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        System.out.println("mousePressed");
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        System.out.println("mouseReleased");
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        System.out.println("entered");
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        System.out.println("exited");
-    }
-
+    
     public void keyTyped(KeyEvent e) { }
 
     public void keyPressed(KeyEvent e) {

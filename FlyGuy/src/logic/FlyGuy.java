@@ -14,9 +14,9 @@ public class FlyGuy {
     private ArrayList<Line2D> zrzutowane;
     private Scene scena;
     private boolean changed = true;
-    private double tStep = 10.0;                 // krok przesuniecia w translacji
-    private double dStep = 1.0;                 // krok przesuniecia ogniskowej
-    private double rStep = 0.01;                // jednostka obrotu
+    private double tStep = 100.0;                 // krok przesuniecia w translacji
+    private double dStep = 10.0;                 // krok przesuniecia ogniskowej
+    private double rStep = 0.1;                // jednostka obrotu
     private Double[] v;                         // wektor translacji
     private Matrix T = new Matrix('I');         // macierz translacji
     private Matrix R = new Matrix('I');         // zbiorowa macierz obrotu
