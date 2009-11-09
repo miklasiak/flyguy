@@ -20,11 +20,11 @@ public class Main {
                 500,    // RZ_WIDTH
                 0.0); // Camera Y
 
-        scena0 = new Scene(ObjectLoader.getTriangleList("testy.txt"), pw);
+        //scena0 = new Scene(ObjectLoader.getTriangleList("testy.txt"), pw);
         //scena1 = new Scene(ObjectLoader.getTriangleList("szescian.txt"), pw);
-        //scena2 = new Scene(ObjectLoader.getTriangleList("pkin.txt"), pw);
+        scena2 = new Scene(ObjectLoader.getTriangleList("pkin.txt"), pw);
 
-        program = new FlyGuy(scena0);
+        program = new FlyGuy(scena2);
     }
 
 }
